@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Business Page</h1>
+<h2>user: &nbsp; {{ request.user.username}} </h2>
+<a href="{% url 'businesses:business-form' %}">Add business Detail</a> |
+<a href="{% url 'businesses:business-info' user.business.pk %}">detail</a> |
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load humanize i18n static humanize %}
+{% block content %}
+
+
+<div class="container">
+
+  <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <span>Posts - {{ view.kwargs.username }} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Breadcrumb Section Begin -->
+    <center>
+      <h2 class="mb-3" style="padding:10px;">
+        Posts by
+        {{ view.kwargs.username }}
+        ({{ page_obj.paginator.count }})
+      </h2>
+      <hr class="border"><br>
+
+    <!-- All Posts Begin-->
+    <div class="row" style="margin-left: 30px;">
+
+      {% for post in posts %}
+       <div class="col-md-11">
+      <h3 class="title">{{ post.title }}</h3>
+      <br>
+      <p class="data">
+        <span class="span" style="color: #a3a3a3a3;">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+           {{ post.date_posted|naturaltime  }}
+        </span>
+        <span class="span"> 
+          <a href="{% url 'blogpost:user-posts' post.user.username %}" style="color: #a3a3a3a3;">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          posted by {{  post.user.username }}
+          </a>
+        </span>
+        <span class="span" style="color: #a3a3a3a3;">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          shopping, reviews
+        </span>
+        <span class="span">
+           <i class="fa fa-comments" aria-hidden="true"></i>
+          <a href="{{ post.get_absolute_url }}#disqus_thread" style="color: #a3a3a3a3">
+          Post a comment</a>
+          </a>
+        </span>
+      </p>
+      <hr id="hr">
+      <div id="blog">
+        <div class="image">
+           {% if post.image %}
+            <img class="img" id="img" src="{{ post.image.url }}" class="card-img-top" alt="...">
+          {% endif %}
+          <p id="content">
+          {{ post.content }}
+          <br> 
+          <a type="button" href="{% url 'blogpost:detail' post.slug %}" class="btn btn-outline-info" style="margin-top: 10PX;float: right;">
+              ADD COMMENTS
+              </a>
+          </p>
+        </div>
+      </div>
+     
+      {% endfor %}
+    </div>
+    <!-- All Posts Ends -->
+</div>
+
+{% if is_paginated %}
+
+    {% if page_obj.has_previous %}
+      <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+  {% endif %}
+</center>
+</div>
+
+ {% endblock content %}

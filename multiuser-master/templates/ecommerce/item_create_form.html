@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <a href="{% url 'businesses:business-dashboard' %}">My Dashboard</a>
+                        <span>Add Product</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+    <!-- Breadcrumb Section Begin -->
+<div class="col-6 offset-3">
+      <form method="POST" enctype="multipart/form-data" novalidate>
+          {% csrf_token %}
+          <fieldset class="form-group">
+              <legend class="border-bottom mb-4 text-center">Add Product</legend>
+              {{form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button type="submit" class="site-btn login-btn" style="width: 300px;margin-left: 50px;">
+              ADD
+            </button><br><br>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  
+{% endblock %}
+

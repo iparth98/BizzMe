@@ -1,0 +1,7 @@
+input[name="remember"]{
+	margin-left: -15px;
+	margin-top: 6px;
+}
+textarea[name="description"]{
+	height: 100px;
+}
