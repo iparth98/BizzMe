@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <span>Items</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+    <!-- Breadcrumb Section Begin -->
+
+    <center>
+
+      {% if user.is_business %}
+      <a href="{% url 'businesses:business-dashboard' %}">
+        My Dashboard
+      </a>
+      {% endif %}
+
+      <h2 class="mb-3" style=" text-transform: uppercase;">
+        Item by {{ view.kwargs.username }}
+      </h2>
+      <hr class="border">
+
+      <div class="row">
+        {% for item in items %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <p>{{ item.business.business_name }}</p>
+            <div class="card" style="max-height: 400px;">
+              <div class="view overlay">
+                <a href="{% url 'product_list' item.id %}">
+                  <img src="{{ item.image_1.url }}" class="card-img-top" style="max-height: 200px;">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <a href="" class="grey-text" style="color: grey;">
+                <h5 >{{ item.get_category_display }}</h5>
+              </a>
+              <h5 class="font-weight-bold blue-text" style="margin-bottom: 10px;">
+                  <strong>$
+                    {% if item.discounted_price %}
+                    {{ item.discounted_price }}
+                    {% else %}
+                    {{ item.price }}
+                    {% endif %}
+                  </strong>
+                </h5>
+              
+                <strong>
+                  <a href="{% url 'product_list' item.id %}" class="dark-grey-text" style="color: grey;">{{ item.title }}
+                    <span class="badge badge-{{ item.get_label_display }}">NEW</span>
+                  </a>
+                </strong>
+              </h5>
+               </div>  
+            </div>
+        {% endfor %} 
+
+      </div>
+    </center>    
+</div>
+{% endblock %}

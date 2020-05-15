@@ -1,0 +1,92 @@
+{% load static %}
+{% load cart_template_tags %}
+<nav class="navbar navbar-expand-lg navbar-dark scrolling-navbar justify-content-between" id="navbar">
+  <!-- <a class="navbar-brand" href="/"><img src="{% static 'img/logo.jpg' %}"></a> -->
+  <ul class="navbar-nav mr-auto">
+    <li id="nav-item mr-auto" class="nav-item active">
+      <a class="nav-link" href="{% url 'home' %}" >
+        <i class="fa fa-home" aria-hidden="true"></i>
+        Home
+      </a>
+    </li>
+    <li id="nav-item" class="nav-item">
+      <a class="nav-link" href="{% url 'blogpost:post-list' %}">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        Tweets
+      </a>
+    </li>
+  </ul>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      {% if request.user.is_authenticated %}
+        <li id="nav-item" class="nav-item">
+          <a class="nav-link" href="{% url 'ecommerce:order-summary' %}">
+            <span class="badge badge-danger z-depth-1 mr-1">
+              {{ request.user|cart_item_count }}
+            </span>
+            <i class="fa fa-shopping-cart"></i>
+            <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+          </a>
+        </li>
+        <li id="nav-item" class="nav-item">
+          <a class="nav-link" href="{% url 'blogpost:post-create' %}">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            New Post
+          </a>
+        </li>
+      {% endif %}
+      <li id="nav-item" class="nav-item">
+        <a class="nav-link" href="{% url 'contact' %}">
+          <i class="fa fa-address-card" aria-hidden="true"></i>
+          Contact
+        </a>
+      </li>
+      {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="{{ request.user.profile.image.url  }}" id="profilePhoto">
+            {{ request.user.username }}
+          </a>
+        {% else %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-folder-open" aria-hidden="true"></i>
+              User Activity
+            </a>
+          {% endif %}
+          <div class="dropdown-menu" aria-labelledby="barDropdownMenuLink">
+            {% if user.is_authenticated %}
+              <a class="dropdown-item" href="{% url 'account_logout' %}">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
+                  logout
+                </a>
+              {% if user.is_business %}
+                <a  class="dropdown-item" href="{% url 'businesses:business-dashboard' %}">
+                  My Dashboard
+                </a>
+              {% else %}
+                <a class="dropdown-item" href="{% url 'profile' %}">
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  My Profile
+                </a>
+                
+              {% endif %}
+              
+            {% else %}
+              <a class="dropdown-item" href="{% url 'signin' %}">
+                <i class="fa fa-sign-in" aria-hidden="true"></i>
+                Login
+              </a>
+              <a class="dropdown-item" href="{% url 'signup' %}">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                Signup
+              </a>
+            {% endif %}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>

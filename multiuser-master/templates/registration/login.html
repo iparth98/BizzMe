@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% load socialaccount %}
+{% providers_media_js %}
+{% block content %}
+<br>
+    <button><a href="{% provider_login_url "facebook" method="js_sdk" %}">facebook login</a></button>
+    <button><a href="{% provider_login_url "google" %}">google login</a></button>
+    {# <button><a href="{% provider_login_url "facebook" method="oauth2" %}">facebook login</a></button> #}
+    <button><a href="#">Google login</a></button>
+
+{% endblock %}
