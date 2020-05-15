@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load humanize i18n static humanize %}
+{% block content %}
+
+<!-- Breadcrumb Section Begin -->
+<div style="background: #fffff9">
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <span>Posts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Breadcrumb Section Begin -->
+
+<div class="container my-4 ml-5">
+
+  {% for post in object_list %}
+  <div class="row">
+    <div class="col-md-11">
+      <h3 class="title">
+        <a href="{% url 'blogpost:detail' post.slug %}" data-toggle="tooltip" data-placement="top" title="Add comments">
+          <span id="title">
+          {{ post.title }}
+          </span>
+        </a>
+      </h3>
+      <br>
+      <p class="data">
+        <span class="span">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+          {{ post.date_posted|naturaltime  }}
+        </span>
+        <span class="span"> 
+          <a href="{% url 'blogpost:user-posts' post.user.username %}" style="color: #707070;">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          posted by {{ post.user.username }}
+          </a>
+        </span>
+        <span class="span">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          shopping, reviews
+        </span>
+        <span class="span" style="color: #707070;">
+           <i class="fa fa-comments" aria-hidden="true"></i>
+          
+            <a style="color: #707070;" href="{{ post.get_absolute_url }}#disqus_thread">post</a>
+          </span>
+      </p>
+      <hr id="hr">
+      <div class="blog">
+        <div class="image">
+          {% if post.image %}
+            <img class="img" src="{{ post.image.url }}" alt="">
+          {% endif %}
+          <p class="content">
+          {{ post.content }}
+          <br> 
+          </p>
+          <span id="link"><a href="{% url 'blogpost:detail' post.slug %}" style="color: #e7ab3c;">read more</a></span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  {% endfor %}
+
+</div>
+
+<nav class="d-flex justify-content-center wow fadeIn">
+<div class="pagination">
+    <span class="step-links">
+        {% if object_list.has_previous %}
+            <a href="?{{ page_request_var }}={{ object_list.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" style="color: #e7ab3c;font-weight: bold;">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        </span>
+
+        {% if object_list.has_next %}
+            <a href="?{{ page_request_var }}={{ object_list.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" style="color: #e7ab3c;font-weight: bold;">next</a>
+        {% endif %}
+    </span>
+</div>
+</nav>
+<br>
+</div>
+
+{% endblock content %}
+
+

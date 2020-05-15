@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Register</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Form Section Begin -->
+    <center>
+         <!-- Signup Data -->
+    <div class="main">
+        <div class="col-md-8 col-sm-12 text-center">
+            <br><br>
+            <h1>BIZZ ME</h1><br>
+            <h2>Signup for FREE Account</h2><br>
+            <h4>Select below the type of account you want to create</h4>
+            <br>
+            <form>
+                <div class="form-row">
+                    <div class="col">
+                        <a href="{% url 'customers_signup' %}" type="submit" id="submit" class="btn btn-dark float-left">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                            I'm a Customer
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'business_signup' %}" type="submit" id="submit" class="btn btn-dark float-left" style="margin-left: -30px;">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                            I'm a Business
+                        </a>
+                    </div>
+
+                </div>
+            </form>
+
+            <br>
+            <hr>
+            <p class="float-left txt">
+                Have an account 
+                <a href="{% url 'signin' %}" >
+                <span style="color: #e7ab3c;">Login</span>
+                </a>
+            </p>
+            <br><br><br><br>
+        </div>
+    </div>
+    </center>
+
+</div>
+
+
+
+{% endblock %}
+

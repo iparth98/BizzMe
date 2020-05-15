@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!--Main layout-->
+<div class="container">
+
+  <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+  <!-- Shopping Cart Section Begin -->
+  <section class="shopping-cart spad" style="margin-top: -50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="cart-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th class="p-name">Product Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                  <th><i class="ti-close"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for order_item in object.item.all %}
+                <tr>
+                  <td class="cart-pic first-row">
+
+                    <!-- slider start -->
+                  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width: 130px;margin-left: 20px;">
+                  <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                  </ol>
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img class="d-block w-100" src="{{ order_item.item.image_1.url }}" alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                          <img class="d-block w-100" src="{{ order_item.item.image_2.url }}" alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                          <img class="d-block w-100" src="{{ order_item.item.image_3.url }}" alt="Third slide">
+                        </div>
+                      </div>
+                  </div>
+
+                  <!-- slider end -->
+
+                  </td>
+                  <td class="cart-title first-row">
+                    <h5>{{ order_item.item.title }}</h5>
+                  </td>
+                  <td class="p-price first-row">
+                    {{ order_item.item.price }}
+                  </td>
+                  <td class="qua-col first-row">
+                    <a href="{% url 'ecommerce:remove-single-item-from-cart' order_item.item.pk %}">
+                      <i class="fa fa-minus" aria-hidden="true" style="color: black;"></i>
+                    </a>
+                    &nbsp;&nbsp;
+                    {{ order_item.quantity }}
+                    &nbsp;&nbsp;
+                    <a href="{% url 'ecommerce:add-to-cart' order_item.item.pk %}"><i class="fa fa-plus" aria-hidden="true" style="color: black;"></i>
+                    </a>
+                  </td>
+                  <td class="total-price first-row">
+                    {% if order_item.item.discounted_price %}
+                    ${{ order_item.get_total_discounted_item_price }}
+                    <span class="badge badge-danger">saving ${{ order_item.get_amount_saved }}</span>
+                    {% else %}
+                    ${{ order_item.get_total_item_price }}
+                    {% endif %}
+                  </td>
+                  <td class="close-td first-row">
+                    <a href="{% url 'ecommerce:remove-from-cart' order_item.item.pk %}">
+                      <i class="ti-close" style="color: black;"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">
+                      <p style="margin-top:30px;">
+                      Your cart is empty
+                      </p>
+                    </td>
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="cart-buttons">
+                <a href="/" class="btn btn-outline-dark">Continue shopping</a>
+              </div>
+            </div>
+
+            {% if object.get_total %}
+            <div class="col-lg-4 offset-lg-4">
+              <div class="proceed-checkout">
+                <ul>
+                  <li class="subtotal">Subtotal
+                    <span>${{ object.get_total }}</span>
+                  </li>
+                  <li class="cart-total">Total
+                    <span>${{ object.get_total }}</span>
+                  </li>
+                </ul>
+                <a href="/checkout/" class="proceed-btn">
+                  PROCEED TO CHECK OUT
+                </a>
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- Shopping Cart Section End -->
+</div>
+<br>
+
+{% endblock content %}
